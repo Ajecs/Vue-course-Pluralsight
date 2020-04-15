@@ -200,7 +200,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  
 /*  
   ! nunca deben haber estilos globales de los componentes de la aplicación
 */
@@ -209,10 +210,11 @@ export default {
   width: 165px;
   height: 165px;
   border: 3px solid #aaa;
+    img {  
+    width: 165px;
+    }
 }
-.part img {
-  width: 165px;
-}
+
 .top-row {
   display: flex;
   justify-content: space-around;
