@@ -1,16 +1,27 @@
 <template>
-  <div>
-    <button class="add-to-cart">Add to Cart</button>
+  <div class="content">
+    <!-- La herencia de estilos en vue puede solo aplicarse en un scoped a un root element
+    de un componente hijo-> en este caso la clase content -->
+    <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
       <div class="top part">
         <div class="robot-name">
-          <span class="sale">Sale!</span>
+          <!-- con v-once renderiza una sola vez   -->
+          {{selectedRobot.head.title}}
+          <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
+          <!-- Con v-if quita y agrega el elemento, mientras que v-show lo oculta o hace aparecer -->
         </div>
         <img :src="selectedRobot.head.src" title="head" />
         // * v-bind shorthand -> :
-        <button @click="selectPreviousHead()" class="prev-selector">&#9668;</button>
+        <button
+          @click="selectPreviousHead()"
+          class="prev-selector"
+        >&#9668;</button>
         // * v-on shorthand -> @
-        <button @click="selectNextHead()" class="next-selector">&#9658;</button>
+        <button
+          @click="selectNextHead()"
+          class="next-selector"
+        >&#9658;</button>
       </div>
     </div>
     <div class="middle-row">
@@ -37,11 +48,29 @@
         <button @click="selectNextBase()" class="next-selector">&#9658;</button>
       </div>
     </div>
+    <div>
+      <h1>Cart</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Robot</th>
+            <th class="cost">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(robot, index) in cart" :key="index">
+          <!-- Nunca usar v-if y v-for en un mismo elemento por cuestiones de performance -->
+          <td>{{robot.head.title}}</td>
+          <td class="cost">{{robot.cost}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
-import availableParts from "../data/parts";
+import availableParts from '../data/parts';
 
 function getPreviousValindIndex(index, length) {
   const deprecatedIndex = index - 1;
@@ -57,6 +86,7 @@ export default {
   data() {
     return {
       availableParts,
+      cart: [],
       selectedHeadIndex: 0,
       selectedLeftArmIndex: 0,
       selectedTorsoIndex: 0,
@@ -71,11 +101,24 @@ export default {
         leftArm: availableParts.arms[this.selectedLeftArmIndex],
         torso: availableParts.torsos[this.selectedTorsoIndex],
         rightArm: availableParts.arms[this.selectedRightArmIndex],
-        base: availableParts.bases[this.selectedBaseIndex],
-      }
-    },
+        base: availableParts.bases[this.selectedBaseIndex]
+      };
+    }
   },
   methods: {
+    addToCart() {
+      const robot = this.selectedRobot;
+      const cost =
+        robot.head.cost +
+        robot.leftArm.cost +
+        robot.torso.cost +
+        robot.rightArm.cost +
+        robot.base.cost;
+      this.cart.push(Object.assign({}, robot, { cost }));
+      /*
+       * Object.assign permite definir a la instancia robot que se le asigna el costo
+       * Asegurando que el objeto no se repita */
+    },
     selectNextHead() {
       this.selectedHeadIndex = getNextValindIndex(
         this.selectedHeadIndex,
@@ -144,7 +187,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+/*  
+  ! nunca deben haber estilos globales de los componentes de la aplicación
+*/
 .part {
   position: relative;
   width: 165px;

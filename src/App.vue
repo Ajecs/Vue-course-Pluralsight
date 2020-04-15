@@ -29,14 +29,23 @@ export default {
 }
 </script>
 
-<style>
-*, ::after, ::before {
+<style lang="css">
+/* Global style */
+  *, ::after, ::before {
   box-sizing: border-box;
 }
 body {
   background: linear-gradient(to bottom, #555, #999);
   background-attachment: fixed;
 }
+</style>
+
+<style scoped>
+/*
+ * Los estilos con scoped solo alcanzan al componente y no al index donde se renderizan
+ * Se caracterizan por un 'data-bind' que se agrega al elemento html
+ * Afecta a componente hijos del componente padre 
+*/
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
@@ -66,6 +75,12 @@ main {
   background-color:white;
   width: 85vw;
   min-height: 300px;
-
 }
+  /* 
+   code .content >>> .robot-name { 
+     Con el uso del selecto >>> (selector deep) se puede heredar a un subelemento del componente hijo
+    que no sea el elemento root. También afectará a otros componentes 
+    también puede usarse '/deep/' 
+     border: 1px solid blue; 
+    } */
 </style>
