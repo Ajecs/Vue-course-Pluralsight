@@ -4,7 +4,10 @@
     de un componente hijo-> en este caso la clase content -->
     <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-      <div class="top part">
+      <div :class="[saleBorderClass, 'top', 'part']">
+        <!-- :class no excluye a las clases definidas previamente -->
+        <!-- Binding un estilo css en linea  mediante un método -> :style="headBorderStyle" -->
+        <!-- o utilizando class binding {'sale-border': selectedRobot.head.onSale}" -->
         <div class="robot-name">
           <!-- con v-once renderiza una sola vez   -->
           {{selectedRobot.head.title}}
@@ -95,6 +98,16 @@ export default {
     };
   },
   computed: {
+    saleBorderClass() {
+      return this.selectedRobot.head.onSale ? 'sale-border' : ''
+    },
+    headBorderStyle() {
+      return { /* Metodo que agrega un estilo en linea */
+         border: this.selectedRobot.head.onSale ? 
+         '3px solid red' :
+         '3px solid #aaa' 
+         }
+    },
     selectedRobot() {
       return {
         head: availableParts.heads[this.selectedHeadIndex],
