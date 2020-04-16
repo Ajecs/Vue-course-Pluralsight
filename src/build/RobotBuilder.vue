@@ -1,55 +1,27 @@
 <template>
   <div class="content">
     <!-- La herencia de estilos en vue puede solo aplicarse en un scoped a un root element
-    de un componente hijo-> en este caso la clase content -->
+    de un componente hijo-> en este caso la clase content-->
     <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-      <div :class="[saleBorderClass, 'top', 'part']">
-        <!-- :class no excluye a las clases definidas previamente -->
-        <!-- Binding un estilo css en linea  mediante un método -> :style="headBorderStyle" -->
-        <!-- o utilizando class binding {'sale-border': selectedRobot.head.onSale}" -->
-        <div class="robot-name">
-          <!-- con v-once renderiza una sola vez   -->
-          {{selectedRobot.head.title}}
-          <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
-          <!-- Con v-if quita y agrega el elemento, mientras que v-show lo oculta o hace aparecer -->
-        </div>
-        <img :src="selectedRobot.head.src" title="head" />
-        // * v-bind shorthand -> :
-        <button
-          @click="selectPreviousHead()"
-          class="prev-selector"
-        >&#9668;</button>
-        // * v-on shorthand -> @
-        <button
-          @click="selectNextHead()"
-          class="next-selector"
-        >&#9658;</button>
-      </div>
+      <!-- :class no excluye a las clases definidas previamente -->
+      <!-- Binding un estilo css en linea  mediante un método -> :style="headBorderStyle" -->
+      <!-- o utilizando class binding {'sale-border': selectedRobot.head.onSale}" -->
+      <!-- <div class="robot-name"> -->
+        <!-- con v-once renderiza una sola vez   -->
+        <!-- {{selectedRobot.head.title}} -->
+        <!-- <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span> -->
+        <!-- Con v-if quita y agrega el elemento, mientras que v-show lo oculta o hace aparecer -->
+      <!-- </div> -->
+      <PartSelector />
     </div>
     <div class="middle-row">
-      <div class="left part">
-        <img :src="selectedRobot.leftArm.src" title="left arm" />
-        <button @click="selectPreviousLeftArm()" class="prev-selector">&#9650;</button>
-        <button @click="selectNextLeftArm()" class="next-selector">&#9660;</button>
-      </div>
-      <div class="center part">
-        <img :src="selectedRobot.torso.src" title="torso" />
-        <button @click="selectPreviousTorso()" class="prev-selector">&#9668;</button>
-        <button @click="selectNextTorso()" class="next-selector">&#9658;</button>
-      </div>
-      <div class="right part">
-        <img :src="selectedRobot.rightArm.src" title="right arm" />
-        <button @click="selectPreviousRightArm()" class="prev-selector">&#9650;</button>
-        <button @click="selectNextRightArm()" class="next-selector">&#9660;</button>
-      </div>
+      <PartSelector />
+      <PartSelector />
+      <PartSelector />
     </div>
     <div class="bottom-row">
-      <div class="bottom part">
-        <img :src="selectedRobot.base.src" title="base" />
-        <button @click="selectPreviousBase()" class="prev-selector">&#9668;</button>
-        <button @click="selectNextBase()" class="next-selector">&#9658;</button>
-      </div>
+      <PartSelector />
     </div>
     <div>
       <h1>Cart</h1>
@@ -62,9 +34,9 @@
         </thead>
         <tbody>
           <tr v-for="(robot, index) in cart" :key="index">
-          <!-- Nunca usar v-if y v-for en un mismo elemento por cuestiones de performance -->
-          <td>{{robot.head.title}}</td>
-          <td class="cost">{{robot.cost}}</td>
+            <!-- Nunca usar v-if y v-for en un mismo elemento por cuestiones de performance -->
+            <td>{{robot.head.title}}</td>
+            <td class="cost">{{robot.cost}}</td>
           </tr>
         </tbody>
       </table>
@@ -73,48 +45,44 @@
 </template>
 
 <script>
-import availableParts from '../data/parts';
-
-function getPreviousValindIndex(index, length) {
-  const deprecatedIndex = index - 1;
-  return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
-}
-function getNextValindIndex(index, length) {
-  const incrementedIndex = index + 1;
-  return incrementedIndex > length - 1 ? 0 : incrementedIndex;
-}
+import availableParts from "../data/parts";
+import createdHookMixin from "./created-hook-mixin";
+import PartSelector from "./PartSelector.vue";
 
 export default {
   name: "RobotBuilder",
+  components: {PartSelector},
+  // * Los componentes no solo se importan, también se agregan a components como objeto
   data() {
     return {
       availableParts,
       cart: [],
-      selectedHeadIndex: 0,
-      selectedLeftArmIndex: 0,
-      selectedTorsoIndex: 0,
-      selectedRightArmIndex: 0,
-      selectedBaseIndex: 0
+      selectedRobot: {
+        head: {},
+        leftArm: {},
+        torso: {},
+        rightArm: {},
+        base: {}
+      }
     };
   },
+  mixins: [createdHookMixin],
+  /*
+    * Los mixins son funcionalidades que pueden ser compartidas por todos los componentes
+    * Por lo general importadas de otros archivos
+    * Se aplican en todas las caracteristicas de los componentes
+    - Lifecycles, props, computed properties ...
+  */
   computed: {
     saleBorderClass() {
-      return this.selectedRobot.head.onSale ? 'sale-border' : ''
+      return this.selectedRobot.head.onSale ? "sale-border" : "";
     },
     headBorderStyle() {
-      return { /* Metodo que agrega un estilo en linea */
-         border: this.selectedRobot.head.onSale ? 
-         '3px solid red' :
-         '3px solid #aaa' 
-         }
-    },
-    selectedRobot() {
       return {
-        head: availableParts.heads[this.selectedHeadIndex],
-        leftArm: availableParts.arms[this.selectedLeftArmIndex],
-        torso: availableParts.torsos[this.selectedTorsoIndex],
-        rightArm: availableParts.arms[this.selectedRightArmIndex],
-        base: availableParts.bases[this.selectedBaseIndex]
+        /* Metodo que agrega un estilo en linea */
+        border: this.selectedRobot.head.onSale
+          ? "3px solid red"
+          : "3px solid #aaa"
       };
     }
   },
@@ -131,77 +99,12 @@ export default {
       /*
        * Object.assign permite definir a la instancia robot que se le asigna el costo
        * Asegurando que el objeto no se repita */
-    },
-    selectNextHead() {
-      this.selectedHeadIndex = getNextValindIndex(
-        this.selectedHeadIndex,
-        availableParts.heads.length
-      );
-    },
-    selectPreviousHead() {
-      this.selectedHeadIndex = getPreviousValindIndex(
-        this.selectedHeadIndex,
-        availableParts.heads.length
-      );
-    },
-
-    selectNextLeftArm() {
-      this.selectedLeftArmIndex = getNextValindIndex(
-        this.selectedLeftArmIndex,
-        availableParts.arms.length
-      );
-    },
-    selectPreviousLeftArm() {
-      this.selectedLeftArmIndex = getPreviousValindIndex(
-        this.selectedLeftArmIndex,
-        availableParts.arms.length
-      );
-    },
-
-    selectNextTorso() {
-      this.selectedTorsoIndex = getNextValindIndex(
-        this.selectedTorsoIndex,
-        availableParts.torsos.length
-      );
-    },
-    selectPreviousTorso() {
-      this.selectedTorsoIndex = getPreviousValindIndex(
-        this.selectedTorsoIndex,
-        availableParts.torsos.length
-      );
-    },
-
-    selectNextRightArm() {
-      this.selectedRightArmIndex = getNextValindIndex(
-        this.selectedRightArmIndex,
-        availableParts.arms.length
-      );
-    },
-    selectPreviousRightArm() {
-      this.selectedRightArmIndex = getPreviousValindIndex(
-        this.selectedRightArmIndex,
-        availableParts.arms.length
-      );
-    },
-
-    selectNextBase() {
-      this.selectedBaseIndex = getNextValindIndex(
-        this.selectedBaseIndex,
-        availableParts.bases.length
-      );
-    },
-    selectPreviousBase() {
-      this.selectedBaseIndex = getPreviousValindIndex(
-        this.selectedBaseIndex,
-        availableParts.bases.length
-      );
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-  
 /*  
   ! nunca deben haber estilos globales de los componentes de la aplicación
 */
@@ -210,9 +113,9 @@ export default {
   width: 165px;
   height: 165px;
   border: 3px solid #aaa;
-    img {  
+  img {
     width: 165px;
-    }
+  }
 }
 
 .top-row {
