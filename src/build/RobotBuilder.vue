@@ -1,27 +1,26 @@
 <template>
   <div class="content">
     <div class="preview">
-      <Collapsible>
-      
-      </Collapsible>
-      div class="preview-content">
-        <div class="top-row">
-          <img :src="selectedRobot.head.src"/>
+      <CollapsibleSection>
+        <div class="preview-content">
+          <div class="top-row">
+            <img :src="selectedRobot.head.src" />
+          </div>
+          <div class="middle-row">
+            <img :src="selectedRobot.leftArm.src" class="rotate-left" />
+            <img :src="selectedRobot.torso.src" />
+            <img :src="selectedRobot.rightArm.src" class="rotate-right" />
+          </div>
+          <div class="bottom-row">
+            <img :src="selectedRobot.base.src" />
+          </div>
         </div>
-        <div class="middle-row">
-          <img :src="selectedRobot.leftArm.src" class="rotate-left"/>
-          <img :src="selectedRobot.torso.src"/>
-          <img :src="selectedRobot.rightArm.src" class="rotate-right"/>
-        </div>
-        <div class="bottom-row">
-          <img :src="selectedRobot.base.src"/>
-        </div>
-      </div>
+      </CollapsibleSection>
       <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     </div>
     <!-- La herencia de estilos en vue puede solo aplicarse en un scoped a un root element
     de un componente hijo-> en este caso la clase content-->
-    
+
     <div class="top-row">
       <!-- :class no excluye a las clases definidas previamente -->
       <!-- Binding un estilo css en linea  mediante un método -> :style="headBorderStyle" -->
@@ -87,10 +86,11 @@
 import availableParts from "../data/parts";
 import createdHookMixin from "./created-hook-mixin";
 import PartSelector from "./PartSelector.vue";
+import CollapsibleSection from "../shared/CollapsibleSection.vue"
 
 export default {
   name: "RobotBuilder",
-  components: { PartSelector },
+  components: { PartSelector, CollapsibleSection },
   // * Los componentes no solo se importan, también se agregan a components como objeto
   data() {
     return {
@@ -247,7 +247,7 @@ export default {
   color: red;
 }
 .content {
-  position: relative; 
+  position: relative;
 }
 .add-to-cart {
   position: absolute;
