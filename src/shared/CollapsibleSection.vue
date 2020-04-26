@@ -7,6 +7,7 @@
     <slot v-if="open">
       <div>Default Content</div>
     </slot>
+    <!-- Slot permite añadir contenido a un componente hijo -->
   </div>
 </template>
 
