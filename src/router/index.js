@@ -10,12 +10,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      home: 'Home',
+      name: 'Home',
       component: HomePage,
     },
     {
       path: '/build',
-      home: 'Build',
+      name: 'Build',
       component: RobotBuilder,
     },
   ],

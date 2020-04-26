@@ -4,7 +4,17 @@
       <nav>
         <ul>
           <li class="nav-item">
-            <img class="logo" src="./assets/build-a-bot-logo.png" alt=""> Build a bot
+            <router-link class="nav-link" :to="{name: 'Home'}" exact>
+              <!-- Forma alternativa con binding -->
+              <!-- Exact permite la ruta exacta para evitar problemas en el active link -->
+              <img class="logo" src="./assets/build-a-bot-logo.png" alt /> Build a bot
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{name: 'Build'}" exact>
+              <!-- Forma alternativa con binding -->
+               Build
+            </router-link>
           </li>
         </ul>
       </nav>
@@ -16,15 +26,16 @@
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-}
+  name: "App"
+};
 </script>
 
 <style lang="css">
 /* Global style */
-  *, ::after, ::before {
+*,
+::after,
+::before {
   box-sizing: border-box;
 }
 body {
@@ -62,14 +73,21 @@ ul {
   vertical-align: middle;
   height: 30px;
 }
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+.router-link-active {
+  color: white;
+}
 main {
   margin: 0 auto;
   padding: 2em;
-  background-color:white;
+  background-color: white;
   width: 85vw;
   min-height: 300px;
 }
-  /* 
+/* 
    code .content >>> .robot-name { 
      Con el uso del selecto >>> (selector deep) se puede heredar a un subelemento del componente hijo
     que no sea el elemento root. También afectará a otros componentes 
