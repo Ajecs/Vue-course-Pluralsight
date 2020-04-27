@@ -13,7 +13,7 @@ export default {
     partType: { type: String },
     id: { type: [Number, String] },
     validator(value) {
-      return Number.isInteger(Number(value))
+      return Number.isInteger(Number(value));
     }
   },
   computed: {
