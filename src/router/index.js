@@ -9,54 +9,67 @@ import BrowseHeads from '../parts/RobotHeads.vue'
 import BrowseArms from '../parts/RobotArms.vue'
 import BrowseTorsos from '../parts/RobotTorsos.vue'
 import BrowseBases from '../parts/RobotBases.vue'
+import SidebarStandard from '../sidebars/SidebarStandard.vue'
+import SidebarBuild from '../sidebars/SidebarBuild.vue'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: "history",
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: HomePage,
+      components: {
+        default: HomePage,
+        sidebar: SidebarStandard,
+      },
     },
     {
       path: '/build',
       name: 'Build',
-      component: RobotBuilder,
+      components: {
+        default: RobotBuilder,
+        sidebar: SidebarBuild,
+      },
     },
     {
       // Va antes de partinfo
-      path: '/parts/browse', 
+      path: '/parts/browse',
       name: 'BrowseParts',
       component: BrowseParts,
       children: [
         {
           name: 'BrowseHeads',
           path: 'heads', // ruta relativa a la ruta /browse/
-          component: BrowseHeads
+          component: BrowseHeads,
         },
         {
           name: 'BrowseArms',
           path: 'arms',
-          component: BrowseArms
+          component: BrowseArms,
         },
         {
           name: 'BrowseTorsos',
           path: 'torsos',
-          component: BrowseTorsos
+          component: BrowseTorsos,
         },
         {
           name: 'BrowseBases',
           path: 'bases',
-          component: BrowseBases
+          component: BrowseBases,
         },
-      ]
+      ],
     },
     {
       path: '/parts/:partType/:id',
       name: 'Parts',
       component: PartInfo,
       props: true, // pasa los parametros como props del componente
+      beforeEnter: (to, from, next) => {
+        const isValidId = Number.isInteger(Number(to.params.id))
+        next(isValidId)
+      }
     },
   ],
 })

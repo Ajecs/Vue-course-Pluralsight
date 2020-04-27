@@ -19,9 +19,14 @@
         </ul>
       </nav>
     </header>
-    <main>
-      <router-view />
-    </main>
+    <div class="container">
+      <aside class="aside">
+        <router-view name="sidebar"></router-view>
+      </aside>
+      <main>
+        <router-view /> <!-- por defecto tiene el nombre 'default' -->
+      </main>
+    </div>
   </div>
 </template>
 
@@ -55,7 +60,7 @@ body {
 }
 header {
   background-color: #999;
-  width: 85vw;
+  width: 95vw;
   margin: 0 auto;
 }
 ul {
@@ -80,11 +85,21 @@ ul {
 .router-link-active {
   color: white;
 }
+.container {
+  display: flex;
+  margin: 1em auto 0 auto;
+  justify-content: center;
+}
+.aside {
+  padding: 3em; 
+  background-color: #aaa;
+  width: 15vw;
+  min-height: 300px;
+}
 main {
-  margin: 0 auto;
   padding: 2em;
   background-color: white;
-  width: 85vw;
+  width: 80vw;
   min-height: 300px;
 }
 /* 

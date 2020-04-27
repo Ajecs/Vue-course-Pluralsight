@@ -86,15 +86,27 @@
 import availableParts from "../data/parts";
 import createdHookMixin from "./created-hook-mixin";
 import PartSelector from "./PartSelector.vue";
-import CollapsibleSection from "../shared/CollapsibleSection.vue"
+import CollapsibleSection from "../shared/CollapsibleSection.vue";
 
 export default {
   name: "RobotBuilder",
+  beforeRouteLeave(to, from, next) {
+    // Advierte al usuario al intentar abandonar la pagina
+    if (this.addedToCart) {
+      next(true);
+    } else {
+      const response = confirm(
+        "You not have added your Robot to your cart, are you sure you want to leave the page?"
+      );
+      next(response)
+    }
+  },
   components: { PartSelector, CollapsibleSection },
   // * Los componentes no solo se importan, también se agregan a components como objeto
   data() {
     return {
       availableParts,
+      addedToCart: false,
       cart: [],
       selectedRobot: {
         head: {},
@@ -135,6 +147,7 @@ export default {
         robot.rightArm.cost +
         robot.base.cost;
       this.cart.push(Object.assign({}, robot, { cost }));
+      this.addedToCart = true
       /*
        * Object.assign permite definir a la instancia robot que se le asigna el costo
        * Asegurando que el objeto no se repita */
