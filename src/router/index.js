@@ -23,6 +23,7 @@ export default new Router({
       path: '/parts/:partType/:id',
       name: 'Parts',
       component: PartInfo,
+      props: true, // pasa los parametros como props del componente
     },
   ],
 })

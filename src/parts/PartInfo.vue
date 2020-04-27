@@ -9,11 +9,18 @@
 import parts from "../data/parts";
 export default {
   name: "PartInfo",
+  props: {
+    partType: { type: String },
+    id: { type: [Number, String] },
+    validator(value) {
+      return Number.isInteger(Number(value))
+    }
+  },
   computed: {
     part() {
-      const { partType, id } = this.$route.params
+      const { partType, id } = this;
       // partType es el parametro que tiene que coincidir con el ingresado en router/index.js
-      return parts[partType].find(part => part.id === +id)
+      return parts[partType].find(part => part.id === +id);
     }
   }
 };
