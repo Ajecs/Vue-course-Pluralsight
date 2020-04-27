@@ -13,7 +13,7 @@
           <li class="nav-item">
             <router-link class="nav-link" :to="{name: 'Build'}" exact>
               <!-- Forma alternativa con binding -->
-               Build
+              Build
             </router-link>
           </li>
         </ul>
