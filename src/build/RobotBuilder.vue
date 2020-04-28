@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div v-if="availableParts" class="content">
     <div class="preview">
       <CollapsibleSection>
         <div class="preview-content">
@@ -65,13 +65,17 @@
 </template>
 
 <script>
-import availableParts from "../data/parts";
+
+
 import createdHookMixin from "./created-hook-mixin";
 import PartSelector from "./PartSelector.vue";
 import CollapsibleSection from "../shared/CollapsibleSection.vue";
 
 export default {
   name: "RobotBuilder",
+  created() {
+    this.$store.dispatch('getParts')
+  },
   beforeRouteLeave(to, from, next) {
     // Advierte al usuario al intentar abandonar la pagina
     if (this.addedToCart) {
@@ -87,7 +91,6 @@ export default {
   // * Los componentes no solo se importan, también se agregan a components como objeto
   data() {
     return {
-      availableParts,
       addedToCart: false,
       cart: [],
       selectedRobot: {
@@ -107,6 +110,9 @@ export default {
     - Lifecycles, props, computed properties ...
   */
   computed: {
+    availableParts() {
+      return this.$store.state.parts
+    },
     saleBorderClass() {
       return this.selectedRobot.head.onSale ? "sale-border" : "";
     },

@@ -6,9 +6,10 @@
 </template>
 
 <script>
-import parts from "../data/parts";
+import getPartsMixin from './get-parts-mixin'
 export default {
   name: "PartInfo",
+  mixins: [getPartsMixin],
   props: {
     partType: { type: String },
     id: { type: [Number, String] },
@@ -20,7 +21,7 @@ export default {
     part() {
       const { partType, id } = this;
       // partType es el parametro que tiene que coincidir con el ingresado en router/index.js
-      return parts[partType].find(part => part.id === +id);
+      return this.parts[partType].find(part => part.id === +id);
     }
   }
 };
