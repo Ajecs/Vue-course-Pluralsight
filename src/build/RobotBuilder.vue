@@ -61,24 +61,6 @@
         @partSelected="part => selectedRobot.base = part"
       />
     </div>
-    <div>
-      <h1>Cart</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Robot</th>
-            <th class="cost">Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(robot, index) in cart" :key="index">
-            <!-- Nunca usar v-if y v-for en un mismo elemento por cuestiones de performance -->
-            <td>{{robot.head.title}}</td>
-            <td class="cost">{{robot.cost}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </template>
 
@@ -98,7 +80,7 @@ export default {
       const response = confirm(
         "You not have added your Robot to your cart, are you sure you want to leave the page?"
       );
-      next(response)
+      next(response);
     }
   },
   components: { PartSelector, CollapsibleSection },
@@ -146,8 +128,8 @@ export default {
         robot.torso.cost +
         robot.rightArm.cost +
         robot.base.cost;
-      this.cart.push(Object.assign({}, robot, { cost }));
-      this.addedToCart = true
+      this.$store.commit("addRobotToCart", Object.assign({}, robot, { cost }));
+      this.addedToCart = true;
       /*
        * Object.assign permite definir a la instancia robot que se le asigna el costo
        * Asegurando que el objeto no se repita */
@@ -267,15 +249,6 @@ export default {
   width: 210px;
   padding: 3px;
   font-size: 16px;
-}
-td,
-th {
-  text-align: left;
-  padding: 5px;
-  padding-right: 20px;
-}
-.cost {
-  text-align: right;
 }
 .sale-border {
   border: 3px solid red;
