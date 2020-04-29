@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <div class="robot-div">
-      <img src="../assets/robot-home.png" alt="" class="robot" aria-hidden="true">
+      <img src="../assets/robot-home.png" alt class="robot" aria-hidden="true" />
     </div>
     <div class="get-started">
-      <router-link to="/build">Get started</router-link> Build your first robot!
-    </div>	
+      <router-link to="/build">Get started</router-link>Build your first robot!
+    </div>
   </div>
 </template>
 
@@ -20,10 +20,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .home {
-    text-align: center;
-  }
-  .robot {
-    height: 300px;
-  }
+.home {
+  text-align: center;
+}
+.robot {
+  height: 300px;
+}
 </style>

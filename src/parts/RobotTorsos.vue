@@ -13,7 +13,7 @@
 <script>
 import getPartsMixin from './get-parts-mixin'
 export default {
-  name: "RobotTorsos",
-  mixins: [getPartsMixin],
-};
+  name: 'RobotTorsos',
+  mixins: [getPartsMixin]
+}
 </script>

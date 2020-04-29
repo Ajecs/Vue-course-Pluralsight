@@ -8,21 +8,21 @@
 <script>
 import getPartsMixin from './get-parts-mixin'
 export default {
-  name: "PartInfo",
+  name: 'PartInfo',
   mixins: [getPartsMixin],
   props: {
     partType: { type: String },
     id: { type: [Number, String] },
     validator(value) {
-      return Number.isInteger(Number(value));
+      return Number.isInteger(Number(value))
     }
   },
   computed: {
     part() {
-      const { partType, id } = this;
+      const { partType, id } = this
       // partType es el parametro que tiene que coincidir con el ingresado en router/index.js
-      return this.parts[partType].find(part => part.id === +id);
+      return this.parts[partType].find(part => part.id === +id)
     }
   }
-};
+}
 </script>

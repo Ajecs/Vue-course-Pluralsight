@@ -9,12 +9,12 @@
 
 <script>
 function getPreviousValidIndex(index, length) {
-  const deprecatedIndex = index - 1;
-  return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
+  const deprecatedIndex = index - 1
+  return deprecatedIndex < 0 ? length - 1 : deprecatedIndex
 }
 function getNextValidIndex(index, length) {
-  const incrementedIndex = index + 1;
-  return incrementedIndex > length - 1 ? 0 : incrementedIndex;
+  const incrementedIndex = index + 1
+  return incrementedIndex > length - 1 ? 0 : incrementedIndex
 }
 export default {
   props: {
@@ -23,49 +23,49 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["left", "right", "top", "bottom", "center"].includes(value);
+        return ['left', 'right', 'top', 'bottom', 'center'].includes(value)
       }
     }
   },
   // se valida el tipo de dato
   data() {
-    return { selectedPartIndex: 0 };
+    return { selectedPartIndex: 0 }
   },
   computed: {
     selectedPart() {
-      return this.parts[this.selectedPartIndex];
+      return this.parts[this.selectedPartIndex]
     }
   },
   created() {
-    this.emitSelectedPart();
+    this.emitSelectedPart()
   },
   updated() {
-    this.emitSelectedPart();
+    this.emitSelectedPart()
   },
   methods: {
     showPartInfo() {
       this.$router.push({
-        name: "Parts",
+        name: 'Parts',
         params: { id: this.selectedPart.id, partType: this.selectedPart.type }
-      });
+      })
     },
     emitSelectedPart() {
-      this.$emit("partSelected", this.selectedPart);
+      this.$emit('partSelected', this.selectedPart)
     },
     selectNextPart() {
       this.selectedPartIndex = getNextValidIndex(
         this.selectedPartIndex,
         this.parts.length
-      );
+      )
     },
     selectPreviousPart() {
       this.selectedPartIndex = getPreviousValidIndex(
         this.selectedPartIndex,
         this.parts.length
-      );
+      )
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -132,21 +132,21 @@ export default {
 }
 .left .prev-selector:after,
 .right .prev-selector:after {
-  content: "\25B2";
+  content: '\25B2';
 }
 .left .next-selector:after,
 .right .next-selector:after {
-  content: "\25BC";
+  content: '\25BC';
 }
 .top .prev-selector:after,
 .bottom .prev-selector:after,
 .center .prev-selector:after {
-  content: "\25C4";
+  content: '\25C4';
 }
 .top .next-selector:after,
 .bottom .next-selector:after,
 .center .next-selector:after {
-  content: "\25BA";
+  content: '\25BA';
 }
 .center .prev-selector,
 .center .next-selector {

@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-
 /* 
   El almacenamiento del estado en Vuex (store) consiste en varios elementos:
   - State (el cambio de estado global)
@@ -9,7 +8,11 @@ import axios from 'axios'
   - Getters -> acciones logicas sobre el estado que son almacenadas para su reutilización
   - Actions -> cambios asincronos del estado usualmente a partir APIS 
 */
+
 export default {
+  namespaced: true,
+  // * namespaced permite distinguir las acciones, mutaciones y getters que implementan cada modulo por la ruta
+  // ! Cuando se utiliza hay cerciorarse que las rutas sean las correctas la llamar $store
   state: {
     // los cambios de estado requieren de un estado por defecto cada vez que se genere alguno.
     cart: [],

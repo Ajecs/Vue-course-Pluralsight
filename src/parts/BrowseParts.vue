@@ -21,8 +21,8 @@
 
 <script>
 export default {
-  name: "BrowseParts"
-};
+  name: 'BrowseParts'
+}
 </script>
 
 <style scoped>

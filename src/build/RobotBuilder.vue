@@ -65,24 +65,24 @@
 </template>
 
 <script>
-import createdHookMixin from "./created-hook-mixin";
-import PartSelector from "./PartSelector.vue";
-import CollapsibleSection from "../shared/CollapsibleSection.vue";
+import createdHookMixin from './created-hook-mixin'
+import PartSelector from './PartSelector.vue'
+import CollapsibleSection from '../shared/CollapsibleSection.vue'
 
 export default {
-  name: "RobotBuilder",
+  name: 'RobotBuilder',
   created() {
-    this.$store.dispatch("getParts");
+    this.$store.dispatch('robots/getParts')
   },
   beforeRouteLeave(to, from, next) {
     // Advierte al usuario al intentar abandonar la pagina
     if (this.addedToCart) {
-      next(true);
+      next(true)
     } else {
       const response = confirm(
-        "You not have added your Robot to your cart, are you sure you want to leave the page?"
-      );
-      next(response);
+        'You not have added your Robot to your cart, are you sure you want to leave the page?'
+      )
+      next(response)
     }
   },
   components: { PartSelector, CollapsibleSection },
@@ -98,7 +98,7 @@ export default {
         rightArm: {},
         base: {}
       }
-    };
+    }
   },
   mixins: [createdHookMixin],
   /*
@@ -109,40 +109,40 @@ export default {
   */
   computed: {
     availableParts() {
-      return this.$store.state.robots.parts;
+      return this.$store.state.robots.parts
     },
     saleBorderClass() {
-      return this.selectedRobot.head.onSale ? "sale-border" : "";
+      return this.selectedRobot.head.onSale ? 'sale-border' : ''
     },
     headBorderStyle() {
       return {
         /* Metodo que agrega un estilo en linea */
         border: this.selectedRobot.head.onSale
-          ? "3px solid red"
-          : "3px solid #aaa"
-      };
+          ? '3px solid red'
+          : '3px solid #aaa'
+      }
     }
   },
   methods: {
     addToCart() {
-      const robot = this.selectedRobot;
+      const robot = this.selectedRobot
       const cost =
         robot.head.cost +
         robot.leftArm.cost +
         robot.torso.cost +
         robot.rightArm.cost +
-        robot.base.cost;
+        robot.base.cost
       this.$store
-        .dispatch("addRobotToCart", Object.assign({}, robot, { cost }))
+        .dispatch('robots/addRobotToCart', Object.assign({}, robot, { cost }))
         // en mutation se usa commit y en actions dispatch
-        .then(() => this.$router.push("/cart"));
-      this.addedToCart = true;
+        .then(() => this.$router.push('/cart'))
+      this.addedToCart = true
       /*
        * Object.assign permite definir a la instancia robot que se le asigna el costo
        * Asegurando que el objeto no se repita */
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

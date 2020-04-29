@@ -15,9 +15,7 @@
           </li>
           <li class="nav-item cart">
             <router-link class="nav-link" to="/cart" exact>Cart</router-link>
-            <div class="cart-items">
-              {{ cart.length }}
-            </div>
+            <div class="cart-items">{{ cart.length }}</div>
           </li>
         </ul>
       </nav>
@@ -36,14 +34,14 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   computed: {
     cart() {
       return this.$store.state.robots.cart
       // robots como la propiedad del modulo asignada
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="css">
@@ -127,7 +125,6 @@ main {
   display: inline-block;
   border-radius: 50%;
   background-color: mediumseagreen;
-
 }
 /* 
    code .content >>> .robot-name { 
