@@ -65,8 +65,6 @@
 </template>
 
 <script>
-
-
 import createdHookMixin from "./created-hook-mixin";
 import PartSelector from "./PartSelector.vue";
 import CollapsibleSection from "../shared/CollapsibleSection.vue";
@@ -74,7 +72,7 @@ import CollapsibleSection from "../shared/CollapsibleSection.vue";
 export default {
   name: "RobotBuilder",
   created() {
-    this.$store.dispatch('getParts')
+    this.$store.dispatch("getParts");
   },
   beforeRouteLeave(to, from, next) {
     // Advierte al usuario al intentar abandonar la pagina
@@ -111,7 +109,7 @@ export default {
   */
   computed: {
     availableParts() {
-      return this.$store.state.parts
+      return this.$store.state.robots.parts;
     },
     saleBorderClass() {
       return this.selectedRobot.head.onSale ? "sale-border" : "";
@@ -134,7 +132,10 @@ export default {
         robot.torso.cost +
         robot.rightArm.cost +
         robot.base.cost;
-      this.$store.commit("addRobotToCart", Object.assign({}, robot, { cost }));
+      this.$store
+        .dispatch("addRobotToCart", Object.assign({}, robot, { cost }))
+        // en mutation se usa commit y en actions dispatch
+        .then(() => this.$router.push("/cart"));
       this.addedToCart = true;
       /*
        * Object.assign permite definir a la instancia robot que se le asigna el costo

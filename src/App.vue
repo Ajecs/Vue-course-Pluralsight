@@ -39,7 +39,8 @@ export default {
   name: "App",
   computed: {
     cart() {
-      return this.$store.state.cart
+      return this.$store.state.robots.cart
+      // robots como la propiedad del modulo asignada
     }
   },
 };
